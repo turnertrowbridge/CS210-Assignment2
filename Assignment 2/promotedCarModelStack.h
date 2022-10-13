@@ -1,11 +1,12 @@
 #ifndef PROMOTEDCARMODELSTACK_H
 #define PROMOTEDCARMODELSTACK_H
 
-#include <ctype.h>  // character manipualtion, e.g. tolower()
+#include <ctype.h>  // character manipulation, e.g. tolower()
 #include <stdio.h> 
 #include <string>
 #include <list>
 #include <stdexcept>
+#include <iostream>
 
 using namespace std;
 
@@ -37,10 +38,9 @@ public:
 
 class PromotedCarModelStack {
 
-private:  
-    list<PromotedModel> latestPromotedModelList;
-    list<PromotedModel> highAndLowPromotedModelList;
-
+private:
+    list<PromotedModel> latestPromotedModelStack;
+    list<pair<PromotedModel, PromotedModel> > maxMinStack;
 public:
   /**
    * @brief push operation, pushing the latest promoted model onto the stack
