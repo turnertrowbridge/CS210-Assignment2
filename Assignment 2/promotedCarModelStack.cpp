@@ -18,16 +18,19 @@
 void PromotedCarModelStack::push(string model, int price) {
         //push latestModel onto stack
         PromotedModel latestModel = PromotedModel(model, price);
-        latestPromotedModelList.push_front(latestModel);
+        latestPromotedModelStack.push_front(latestModel);
 
         //compare latestModel to saved highs and lows on highAndLowPromotedList and
         // push front if greater than saved high, push back if less than saved low
-        if (highAndLowPromotedModelList.size() == 0){
-            highAndLowPromotedModelList.push_front(latestModel);
-        }else if (price >= highAndLowPromotedModelList.front().getPromotedPrice()) {
-            highAndLowPromotedModelList.push_front(latestModel);
-        } else if (price <= highAndLowPromotedModelList.back().getPromotedPrice()) {
-            highAndLowPromotedModelList.push_back((latestModel));
+        if (maxMinStack.size() == 0){
+            maxMinStack.push_front(make_pair(latestModel, latestModel));
+
+            cout << "first price: $" << maxMinStack.front().first.getPromotedPrice() << "\nsecond price: $" << maxMinStack.front().second.getPromotedPrice() << endl;
+
+        }else if (price >= maxMinStack.front().first.getPromotedPrice()) {
+            maxMinStack.push_front(make_pair(latestModel, maxMinStack.front().second));
+        } else if (price <= maxMinStack.front().second.getPromotedPrice()) {
+            maxMinStack.push_front(make_pair(maxMinStack.front().first, latestModel));
         }
 }
 
@@ -39,13 +42,14 @@ void PromotedCarModelStack::push(string model, int price) {
    */
 PromotedModel PromotedCarModelStack::pop() {
     //throw exception if stack is empty
-    if (latestPromotedModelList.empty()) {
+    if (latestPromotedModelStack.empty()) {
         throw logic_error("Promoted car model stack is empty");
     }
 
     // save latestModel and pop
-    PromotedModel latestModel = latestPromotedModelList.front();
-    latestPromotedModelList.pop_front();
+    PromotedModel latestModel = latestPromotedModelStack.front();
+    latestPromotedModelStack.pop_front();
+    maxMinStack.pop_front();
 
     return latestModel;
 }
@@ -58,12 +62,12 @@ PromotedModel PromotedCarModelStack::pop() {
    */
 PromotedModel PromotedCarModelStack::peek() {
     //throw exception if stack is empty
-    if (latestPromotedModelList.empty()) {
+    if (latestPromotedModelStack.empty()) {
         throw logic_error("Promoted car model stack is empty");
     }
 
     //peek at the latestModel
-    PromotedModel latestModel = latestPromotedModelList.front();
+    PromotedModel latestModel = latestPromotedModelStack.front();
     return latestModel;
 }
 
@@ -76,12 +80,14 @@ PromotedModel PromotedCarModelStack::peek() {
    */
 PromotedModel PromotedCarModelStack::getHighestPricedPromotedModel() {
     //throw exception if stack is empty
-    if (latestPromotedModelList.empty()) {
+    if (latestPromotedModelStack.empty()) {
         throw logic_error("Promoted car model stack is empty");
     }
 
     //get highest priced model which is stored at front
-    PromotedModel highestPricedModel = highAndLowPromotedModelList.front();
+    PromotedModel highestPricedModel = maxMinStack.front().first;
+    cout << "Highest Priced Model: $" << highestPricedModel.getPromotedPrice() << endl;
+
     return highestPricedModel;
 }
 
@@ -94,11 +100,12 @@ PromotedModel PromotedCarModelStack::getHighestPricedPromotedModel() {
    */
 PromotedModel PromotedCarModelStack::getLowestPricedPromotedModel() {
     //throw exception if stack is empty
-    if (latestPromotedModelList.empty()) {
+    if (latestPromotedModelStack.empty()) {
         throw logic_error("Promoted car model stack is empty");
     }
 
-    //get lowest priced model which is stored at back
-    PromotedModel lowestPricedModel = highAndLowPromotedModelList.back();
+    //get lowest priced model which is stored in second part of the front of the stack
+    PromotedModel lowestPricedModel = maxMinStack.front().second;
+    cout << "Lowest Priced Model: $" << lowestPricedModel.getPromotedPrice() << endl;
     return lowestPricedModel;
 }
