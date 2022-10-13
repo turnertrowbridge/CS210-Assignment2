@@ -19,7 +19,7 @@ private:
 public:
   PromotedModel() {
     this -> model = "";
-    this -> promotedPrice = -1;
+    this -> promotedPrice = 0;
   }
 
   PromotedModel(string m, int p) {

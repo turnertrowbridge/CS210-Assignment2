@@ -1,5 +1,7 @@
 #include "promotedCarModelStack.h"
 
+#include <utility>
+
 /**
  * I the undersigned promise that the submitted assignment is my own work. While I was
  * free to discuss ideas with others, the work contained is my own. I recognize that
@@ -22,7 +24,7 @@ void PromotedCarModelStack::push(string model, int price) {
 
         //compare latestModel to saved highs and lows on highAndLowPromotedList and
         // push front if greater than saved high, push back if less than saved low
-        if (maxMinStack.size() == 0){
+        if (maxMinStack.empty()){
             maxMinStack.push_front(make_pair(latestModel, latestModel));
 
             cout << "first price: $" << maxMinStack.front().first.getPromotedPrice() << "\nsecond price: $" << maxMinStack.front().second.getPromotedPrice() << endl;
@@ -107,5 +109,6 @@ PromotedModel PromotedCarModelStack::getLowestPricedPromotedModel() {
     //get lowest priced model which is stored in second part of the front of the stack
     PromotedModel lowestPricedModel = maxMinStack.front().second;
     cout << "Lowest Priced Model: $" << lowestPricedModel.getPromotedPrice() << endl;
+
     return lowestPricedModel;
 }
