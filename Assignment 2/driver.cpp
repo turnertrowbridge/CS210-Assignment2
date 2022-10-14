@@ -153,7 +153,7 @@ int main(int argc, char **argv) {
 
     cout << endl << "Popping 35,000 from stack" << endl;
 
-    //last pop
+    //last pop, should terminate due to stack being empty
     popped = stack.pop();
 
     if (equalsIgnoreCase(popped.getModel(), "m3")) {

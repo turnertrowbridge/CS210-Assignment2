@@ -25,7 +25,6 @@ void PromotedCarModelStack::push(string model, int price) {
         //if the list is empty, make a pair of the one and only latestModel
         if (maxMinList.empty()){
             maxMinList.push_front(make_pair(latestModel, latestModel));
-            cout << "first price: $" << maxMinList.front().first.getPromotedPrice() << "\nsecond price: $" << maxMinList.front().second.getPromotedPrice() << endl;
 
         //check if the price of the latestModel is greater than the max of the top of maxMinList
         // if true, push latestModel as max, and use old min from last model
