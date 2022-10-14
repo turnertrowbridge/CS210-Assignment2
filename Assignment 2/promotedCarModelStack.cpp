@@ -22,17 +22,25 @@ void PromotedCarModelStack::push(string model, int price) {
         PromotedModel latestModel = PromotedModel(model, price);
         latestPromotedModelStack.push_front(latestModel);
 
-        //compare latestModel to saved highs and lows on highAndLowPromotedList and
-        // push front if greater than saved high, push back if less than saved low
-        if (maxMinStack.empty()){
-            maxMinStack.push_front(make_pair(latestModel, latestModel));
+        //if the list is empty, make a pair of the one and only latestModel
+        if (maxMinList.empty()){
+            maxMinList.push_front(make_pair(latestModel, latestModel));
+            cout << "first price: $" << maxMinList.front().first.getPromotedPrice() << "\nsecond price: $" << maxMinList.front().second.getPromotedPrice() << endl;
 
-            cout << "first price: $" << maxMinStack.front().first.getPromotedPrice() << "\nsecond price: $" << maxMinStack.front().second.getPromotedPrice() << endl;
+        //check if the price of the latestModel is greater than the max of the top of maxMinList
+        // if true, push latestModel as max, and use old min from last model
+        }else if (price > maxMinList.front().first.getPromotedPrice()) {
+            maxMinList.push_front(make_pair(latestModel, maxMinList.front().second));
 
-        }else if (price >= maxMinStack.front().first.getPromotedPrice()) {
-            maxMinStack.push_front(make_pair(latestModel, maxMinStack.front().second));
-        } else if (price <= maxMinStack.front().second.getPromotedPrice()) {
-            maxMinStack.push_front(make_pair(maxMinStack.front().first, latestModel));
+        //check if the price of the latestModel is less than the min of the top of maxMinList
+        // if true, push latestModel as min, and use old max from last model
+        } else if (price < maxMinList.front().second.getPromotedPrice()) {
+            maxMinList.push_front(make_pair(maxMinList.front().first, latestModel));
+
+        //if neither a max nor min price
+        // push the old max and min models to maxMinList
+        } else {
+            maxMinList.push_front(make_pair(maxMinList.front().first, maxMinList.front().second));
         }
 }
 
@@ -48,11 +56,11 @@ PromotedModel PromotedCarModelStack::pop() {
         throw logic_error("Promoted car model stack is empty");
     }
 
-    // save latestModel and pop
+    //save latestModel and remove top of latestPromotedModelStack
+    // also remove the top node from maxMinList that accompanies the latestPromotedModelStack
     PromotedModel latestModel = latestPromotedModelStack.front();
     latestPromotedModelStack.pop_front();
-    maxMinStack.pop_front();
-
+    maxMinList.pop_front();
     return latestModel;
 }
 
@@ -86,9 +94,8 @@ PromotedModel PromotedCarModelStack::getHighestPricedPromotedModel() {
         throw logic_error("Promoted car model stack is empty");
     }
 
-    //get highest priced model which is stored at front
-    PromotedModel highestPricedModel = maxMinStack.front().first;
-    cout << "Highest Priced Model: $" << highestPricedModel.getPromotedPrice() << endl;
+    //get highest priced model which is stored at front of maxMinList in first pair slot
+    PromotedModel highestPricedModel = maxMinList.front().first;
 
     return highestPricedModel;
 }
@@ -106,9 +113,8 @@ PromotedModel PromotedCarModelStack::getLowestPricedPromotedModel() {
         throw logic_error("Promoted car model stack is empty");
     }
 
-    //get lowest priced model which is stored in second part of the front of the stack
-    PromotedModel lowestPricedModel = maxMinStack.front().second;
-    cout << "Lowest Priced Model: $" << lowestPricedModel.getPromotedPrice() << endl;
+    //get lowest priced model which is stored iat front of maxMinList in second pair slot
+    PromotedModel lowestPricedModel = maxMinList.front().second;
 
     return lowestPricedModel;
 }

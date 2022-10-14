@@ -101,8 +101,9 @@ int main(int argc, char **argv) {
                           "m3", 35000,
                           "my", 38000, stack);
 
-    cout << endl << "Popping from stack" << endl;
+    cout << endl << "Popping 38,000 from stack" << endl;
 
+    //first pop
     PromotedModel popped = stack.pop();
 
     if (equalsIgnoreCase(popped.getModel(), "my")) {
@@ -122,6 +123,56 @@ int main(int argc, char **argv) {
     testHighestLowestPeek("ms", 64000,
                           "m3", 35000,
                           "ms", 64000, stack);
+
+    cout << endl << "SUCCESS! All tests passed!" << endl;
+
+    cout << endl << "Popping 64,000 from stack" << endl;
+
+    //second pop
+    popped = stack.pop();
+
+    if (equalsIgnoreCase(popped.getModel(), "ms")) {
+        cout << "Popped model matches" << endl;
+    } else {
+        cout << "FAILED: Popped model does NOT match!" << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    if (popped.getPromotedPrice() == 64000) {
+        cout << "Popped price matches" << endl;
+    } else {
+        cout << "Popped price does NOT match" << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    testHighestLowestPeek("m3", 35000,
+                          "m3", 35000,
+                          "m3", 35000, stack);
+
+    cout << endl << "SUCCESS! All tests passed!" << endl;
+
+    cout << endl << "Popping 35,000 from stack" << endl;
+
+    //last pop
+    popped = stack.pop();
+
+    if (equalsIgnoreCase(popped.getModel(), "m3")) {
+        cout << "Popped model matches" << endl;
+    } else {
+        cout << "FAILED: Popped model does NOT match!" << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    if (popped.getPromotedPrice() == 35000) {
+        cout << "Popped price matches" << endl;
+    } else {
+        cout << "Popped price does NOT match" << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    testHighestLowestPeek("ms", 0,
+                          "m3", 0,
+                          "ms", 0, stack);
 
     cout << endl << "SUCCESS! All tests passed!" << endl;
 

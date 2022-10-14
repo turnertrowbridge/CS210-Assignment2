@@ -39,8 +39,11 @@ public:
 class PromotedCarModelStack {
 
 private:
+    //list implementation for stack containing PromotedModels
     list<PromotedModel> latestPromotedModelStack;
-    list<pair<PromotedModel, PromotedModel> > maxMinStack;
+
+    //list of pairs that contains max, min
+    list<pair<PromotedModel, PromotedModel> > maxMinList;
 public:
   /**
    * @brief push operation, pushing the latest promoted model onto the stack
