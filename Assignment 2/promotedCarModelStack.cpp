@@ -112,7 +112,7 @@ PromotedModel PromotedCarModelStack::getLowestPricedPromotedModel() {
         throw logic_error("Promoted car model stack is empty");
     }
 
-    //get lowest priced model which is stored iat front of maxMinList in second pair slot
+    //get lowest priced model which is stored at front of maxMinList in second pair slot
     PromotedModel lowestPricedModel = maxMinList.front().second;
 
     return lowestPricedModel;
